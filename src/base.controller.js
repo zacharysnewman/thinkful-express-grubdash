@@ -1,9 +1,5 @@
 const read = (controller, itemIdParamKey, itemCollectionKey) => (req, res) => {
-  const itemId = req.params[itemIdParamKey];
-  const foundItem = controller[itemCollectionKey].find(
-    (item) => item.id === itemId
-  );
-  res.json({ data: foundItem });
+  res.json({ data: res.locals.item });
 };
 
 const create =
@@ -27,11 +23,11 @@ const list = (controller, itemIdParamKey, itemCollectionKey) => (req, res) => {
 
 const update =
   (controller, itemIdParamKey, itemCollectionKey) => (req, res) => {
-    const itemId = req.params[itemIdParamKey];
-    const foundItem = controller[itemCollectionKey].find(
-      (item) => item.id === itemId
-    );
-    const item = { ...foundItem, ...req.body.data, id: foundItem.id };
+    const item = {
+      ...res.locals.item,
+      ...req.body.data,
+      id: res.locals.item.id,
+    };
     res.json({ data: item });
   };
 
